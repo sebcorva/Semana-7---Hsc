@@ -27,4 +27,5 @@ def login(request):
 		return Response("Contraseña Incorrecta")
 	
 	token, created = Token.objects.get_or_create(user=user)
-	return Response(token.key)
+	return Response(token.key) 
+#el superuser debe ser con una clave numerica

@@ -6,7 +6,7 @@ from Inicio.models import Categoria, Producto, Marca, TipoProd
 from .serializers import CategoriaSerializers, ProductoSerializers, MarcaSerializers, TipoProdSerializers
 from rest_framework.parsers import JSONParser
 from rest_framework import status
-
+from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 
 # Create your views here.
@@ -14,6 +14,7 @@ from rest_framework.permissions import IsAuthenticated
 #api categorias
 @csrf_exempt
 @api_view(('GET', 'POST'))
+@permission_classes((IsAuthenticated,))
 def lista_categorias(request):
     if request.method == 'GET':
         categoria = Categoria.objects.all()
@@ -34,7 +35,7 @@ def lista_categorias(request):
 
 @api_view(('GET', 'PUT', 'PATCH', 'DELETE'))
 @permission_classes((IsAuthenticated,))
-def vista_categoria(request, id):
+def vista_categoria(request, id): 
     try:
         categoria = Categoria.objects.get(idCategoria=id)
     except Categoria.DoesNotExist:
@@ -59,6 +60,7 @@ def vista_categoria(request, id):
         
 @csrf_exempt
 @api_view(('GET', 'POST'))
+@permission_classes((IsAuthenticated,))
 def lista_productos(request):
     if request.method == 'GET':
         productos = Producto.objects.all()
@@ -103,6 +105,7 @@ def vista_productos(request, id):
 
 @csrf_exempt
 @api_view(['GET','POST'])
+@permission_classes((IsAuthenticated,))
 def lista_marcas(request):
 	if request.method == 'GET':
 		marcas = Marca.objects.all()
@@ -119,6 +122,7 @@ def lista_marcas(request):
 			return Response(serializer.error,status=status.HTTP_400_BAD_REQUEST)
 			
 @api_view(['GET','PUT','PATCH','DELETE'])
+@permission_classes((IsAuthenticated,))
 def vista_marcas(request, id):
 	try:
 		marcas = Marca.objects.get(pk=id)
